@@ -1,6 +1,6 @@
-# TableBridge v2.0 - Hover-Triggered Architecture
+# CSV Export for AI Chats
 
-Export CSV in codeblock to spreadsheet with one click.
+Export CSV/TSV data from AI platforms to spreadsheets with one click.
 
 WebページのCSV/TSVコードブロックをGoogleスプレッドシート、クリップボード、Excelファイルに簡単に転送するChrome拡張機能です。
 
@@ -104,4 +104,4 @@ Based on real usage patterns:
 
 ---
 
-**Development Log**: 2024/06/24 - TableBridge v2.0 released with hover-triggered architecture and multi-platform support.
+**Development Log**: 2024/06/24 - CSV Export for AI Chats v2.0 released with hover-triggered architecture and multi-platform support.

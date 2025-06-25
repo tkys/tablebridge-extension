@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "TableBridge - CSV Export for AI Platforms",
+  "name": "CSV Export for AI Chats",
   "version": "2.0",
   "description": "Export CSV/TSV data from ChatGPT, Gemini, Claude to Google Sheets, clipboard, or download with one click.",
   "permissions": [
