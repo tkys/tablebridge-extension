@@ -1,114 +1,105 @@
 # TableBridge v2.0 - Hover-Triggered Architecture
 
+Export CSV in codeblock to spreadsheet with one click.
+
 WebページのCSV/TSVコードブロックをGoogleスプレッドシート、クリップボード、Excelファイルに簡単に転送するChrome拡張機能です。
 
-## プロジェクト概要
+## 🚀 Features
 
-### v1.0からの改善点
-- **ポーリング廃止**: 重いMutationObserver + setInterval方式から軽量なhover-triggered方式に変更
-- **安定したUI制御**: 予測可能な表示/非表示タイミング
-- **パフォーマンス向上**: 不要なDOM監視を大幅削減
-- **精密な検出**: CSV/TSVコードブロックのみに限定した確実な動作
+- **Multi-Platform Support**: ChatGPT, Gemini, Gemini AI Studio (PWA), Claude
+- **Hover-Triggered UI**: Lightweight detection without performance impact
+- **Multiple Export Options**: Google Sheets, Clipboard (TSV), Excel/CSV download
+- **Smart Detection**: Automatic CSV/TSV format recognition
+- **Cross-Platform Compatibility**: Works across all major AI platforms
 
-### アーキテクチャ
-- **イベント駆動**: ユーザーの意図的なホバーアクションで機能を提供
-- **スクロール追従**: UIが要素と一緒に移動し、画面外では自動非表示
-- **Extension context対応**: Manifest v3のService Worker環境に最適化
+## 📋 Supported Formats
 
-## 機能
+- **CSV**: Comma-separated values in code blocks
+- **TSV**: Tab-separated values in code blocks  
+- **Language Classes**: `language-csv`, `language-tsv`
+- **Content Analysis**: Automatic pattern detection
 
-### 対応フォーマット
-- **CSV**: カンマ区切り形式のコードブロック
-- **TSV**: タブ区切り形式のコードブロック
-- **言語クラス**: `language-csv`, `language-tsv`の明示的指定
-- **コンテンツ解析**: 一貫したカンマ/タブパターンの自動検出
+## 🎯 How to Use
 
-### 操作方法
-1. **検出**: CSV/TSVコードブロックにマウスホバー（800ms遅延）
-2. **UI表示**: フローティングボタンが表示
-3. **アクション**: 3つのボタンから選択
-   - 📊 Googleスプレッドシートに転送
-   - 📋 TSV形式でクリップボードにコピー
-   - 📥 CSVファイルとしてダウンロード
-4. **自動非表示**: マウス離脱から1500ms後に非表示
+1. **Hover** over CSV/TSV code blocks (800ms delay)
+2. **Choose** from floating action buttons:
+   - 📊 Export to Google Sheets
+   - 📋 Copy as TSV (Excel-compatible)
+   - 📥 Download as CSV file
+3. **Auto-hide** after 1500ms when mouse leaves
 
-### UI特徴
-- **position: fixed**: スクロールに追従
-- **ビューポート制御**: 画面端での位置調整
-- **要素追従**: 実際のコードブロック位置に基づく配置
-- **視覚フィードバック**: ボタン状態の明確な表示
+## 🛠 Technical Specifications
 
-## 技術仕様
+### Architecture
+- **Event-Driven**: User-initiated hover actions
+- **Scroll-Following**: UI moves with content
+- **PWA Compatible**: Works in standalone apps
+- **Extension Context Safe**: Manifest v3 compliant
 
-### ファイル構成
+### File Structure
 ```
-tablebridge-v2/
-├── manifest.json          # 拡張機能設定（Manifest v3）
-├── background.js           # Service Worker（API処理）
-├── content_script.js       # メインロジック（hover-triggered）
-├── style.css              # フローティングUI スタイル
-├── popup.html/popup.js     # 設定画面
-└── icons/                  # アイコンファイル
+├── manifest.json          # Extension configuration
+├── background.js           # Service Worker (API handling)
+├── content_script.js       # Main logic (hover-triggered)
+├── style.css              # Floating UI styles
+├── popup.html/popup.js     # Settings interface
+└── icons/                  # Extension icons
 ```
 
-### 検出アルゴリズム
-1. **対象要素**: `code`, `pre`要素のみ
-2. **言語クラス優先**: 明示的な`language-csv/tsv`指定
-3. **コンテンツ検証**: 
-   - 最低2行以上
-   - 一貫したカンマ/タブ数（±1の誤差許容）
-   - 最低3行での検証
-4. **誤検出防止**: 10文字未満のテキストは除外
+### Detection Algorithm
+- **Target Elements**: `code`, `pre` elements only
+- **Language Class Priority**: Explicit `language-csv/tsv`
+- **Content Validation**: Consistent comma/tab patterns
+- **False Positive Prevention**: Minimum content requirements
 
-### タイミング制御
-- **ホバー検出**: `mouseenter`イベント（800ms遅延）
-- **UI表示**: 即座
-- **自動非表示**: `mouseleave`後1500ms遅延
-- **スクロール追従**: リアルタイム位置更新
-- **ビューポート外**: 即座に非表示
+## 🌐 Platform Support
 
-## 開発経緯
+| Platform | Status | Notes |
+|----------|--------|-------|
+| ChatGPT | ✅ | chat.openai.com, chatgpt.com |
+| Gemini | ✅ | gemini.google.com |
+| Gemini AI Studio | ✅ | aistudio.google.com (browser + PWA) |
+| Claude | ✅ | claude.ai |
 
-### 課題の変遷
-1. **初期問題**: ChatGPTのストリーミング応答でボタンが表示されない
-2. **ポーリング解決**: MutationObserver + setIntervalのハイブリッド方式
-3. **パフォーマンス課題**: 定期実行による重い処理
-4. **最終解決**: hover-triggeredアーキテクチャによる根本的改善
+## 📦 Installation
 
-### 設計判断
-- **機能限定**: HTMLテーブル対応を削除し、CSV/TSVコードブロックに特化
-- **ユーザー主導**: 意図的なホバーアクションによる確実な動作
-- **視覚的フィードバック**: どこで何が起こるかを明確化
+1. Download or clone this repository
+2. Open Chrome Extensions (`chrome://extensions/`)
+3. Enable "Developer mode"
+4. Click "Load unpacked" and select the extension folder
 
-## 動作確認済み環境
-- **ブラウザ**: Chrome (Manifest v3)
-- **サイト**: ChatGPT、その他のWebページ
-- **フォーマット**: CSV、TSV コードブロック
+## 🔧 Development
 
-## 既知の制限
-- HTMLテーブル要素は対象外（意図的な仕様）
-- 非常に大きなデータセット（数万行）でのパフォーマンス未検証
-- 複雑なCSVエスケープ（改行含みセル等）の完全対応は限定的
+### v1.0 → v2.0 Improvements
+- **No Polling**: Eliminated heavy MutationObserver + setInterval
+- **Stable UI Control**: Predictable show/hide timing
+- **Performance**: Significant resource usage reduction
+- **Precision**: Focused CSV/TSV detection only
 
-## 今後の拡張可能性
-- MarkdownテーブルやJSON形式の対応
-- より高度なCSV解析エンジンの組み込み
-- ドラッグ&ドロップでのファイル読み込み機能
+### Known Limitations
+- HTML table elements not supported (intentional)
+- Large datasets (10k+ rows) performance untested
+- Complex CSV escaping (newlines in cells) limited support
+
+## 🚦 Development Status
+
+### Completed ✅
+- hover-triggered architecture
+- Multi-platform support (ChatGPT, Gemini, Claude)
+- PWA compatibility fixes
+- Extension context validation
+- Service Worker data: URL downloads
+
+### User Feedback & Future Improvements
+Based on real usage patterns:
+1. **Header Duplication**: Option to skip headers on consecutive exports
+2. **Export Destination Visibility**: Show current spreadsheet info
+3. **Multiple Destinations**: Quick switching between spreadsheets
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 開発ログ
-
-### 2024/06/24 - v2.0リリース
-- ✅ hover-triggeredアーキテクチャ実装
-- ✅ CSV/TSVコードブロック限定対応
-- ✅ スクロール追従UI実装  
-- ✅ Extension context invalidated問題解決
-- ✅ Service Worker対応（data: URL方式）
-- ✅ 安定したタイミング制御実装
-
-### 主要改善
-- パフォーマンス: ポーリング廃止により大幅軽量化
-- 安定性: 予測可能なUI挙動の実現
-- 精度: 誤検出の大幅削減
-- UX: ユーザーの意図に基づく動作
+**Development Log**: 2024/06/24 - TableBridge v2.0 released with hover-triggered architecture and multi-platform support.
