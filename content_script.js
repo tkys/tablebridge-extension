@@ -170,11 +170,50 @@ function parseTsvText(tsvText) {
     return lines.map(line => line.split('\t').map(cell => cell.trim()));
 }
 
-// --- 4. UI Creation Functions ---
-function createActionButton(icon, title, onClick) {
+// --- 4. Internationalization ---
+function getLocale() {
+    return navigator.language.startsWith('ja') ? 'ja' : 'en';
+}
+
+const i18n = {
+    ja: {
+        sheetsTitle: 'Googleスプレッドシートに転送',
+        copyTitle: 'TSV形式でクリップボードにコピー (Excel向け)',
+        downloadTitle: 'Excelファイルとしてダウンロード',
+        error: 'エラー',
+        copySuccess: '選択範囲をクリップボードにコピーしました。',
+        copyFailed: 'コピーに失敗しました。',
+        downloadError: 'ダウンロードエラー',
+        extensionInvalid: 'Extension context is invalid. Please reload the page.',
+        noData: 'No data to copy',
+        unknownError: 'Unknown error occurred',
+        downloadFailed: 'Download failed'
+    },
+    en: {
+        sheetsTitle: 'Export to Google Sheets',
+        copyTitle: 'Copy as TSV to clipboard (Excel compatible)',
+        downloadTitle: 'Download as Excel file',
+        error: 'Error',
+        copySuccess: 'Data copied to clipboard successfully.',
+        copyFailed: 'Failed to copy data.',
+        downloadError: 'Download Error',
+        extensionInvalid: 'Extension context is invalid. Please reload the page.',
+        noData: 'No data to copy',
+        unknownError: 'Unknown error occurred',
+        downloadFailed: 'Download failed'
+    }
+};
+
+function t(key) {
+    const locale = getLocale();
+    return i18n[locale][key] || i18n.en[key] || key;
+}
+
+// --- 5. UI Creation Functions ---
+function createActionButton(icon, titleKey, onClick) {
     const button = document.createElement('button');
     button.className = 'tablebridge-action-btn';
-    button.title = title;
+    button.title = t(titleKey);
     button.innerHTML = icon;
     button.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -188,7 +227,7 @@ function createFloatingUI(tableInfo, targetElement) {
     const wrapper = document.createElement('div');
     wrapper.className = 'tablebridge-floating-ui';
     
-    const sheetsBtn = createActionButton(ICONS.sheets, 'Googleスプレッドシートに転送', async () => {
+    const sheetsBtn = createActionButton(ICONS.sheets, 'sheetsTitle', async () => {
         sheetsBtn.innerHTML = '...';
         sheetsBtn.disabled = true;
         try {
@@ -197,34 +236,34 @@ function createFloatingUI(tableInfo, targetElement) {
             
             // Extension context validation
             if (!chrome.runtime || !chrome.runtime.sendMessage) {
-                throw new Error('Extension context is invalid. Please reload the page.');
+                throw new Error(t('extensionInvalid'));
             }
             
             const response = await chrome.runtime.sendMessage({ action: 'appendToSheet', data });
             console.log('[TableBridge] Response:', response);
             
             if (!response.success) {
-                throw new Error(response.error || 'Unknown error occurred');
+                throw new Error(response.error || t('unknownError'));
             }
             
             sheetsBtn.innerHTML = '✅';
             setTimeout(() => { sheetsBtn.innerHTML = ICONS.sheets; }, 2000);
         } catch (error) {
             console.error('[TableBridge] Sheets error:', error);
-            alert(`エラー: ${error.message}`);
+            alert(`${t('error')}: ${error.message}`);
         } finally {
             sheetsBtn.innerHTML = ICONS.sheets;
             sheetsBtn.disabled = false;
         }
     });
     
-    const copyBtn = createActionButton(ICONS.copy, 'TSV形式でクリップボードにコピー', async () => {
+    const copyBtn = createActionButton(ICONS.copy, 'copyTitle', async () => {
         try {
             const data = tableInfo.data();
             console.log('[TableBridge] Copy data:', data);
             
             if (!data || data.length === 0) {
-                throw new Error('No data to copy');
+                throw new Error(t('noData'));
             }
             
             const tsvData = convertToTSV(data);
@@ -235,11 +274,11 @@ function createFloatingUI(tableInfo, targetElement) {
             setTimeout(() => { copyBtn.innerHTML = ICONS.copy; }, 2000);
         } catch (error) {
             console.error('[TableBridge] Copy error:', error);
-            alert(`エラー: ${error.message}`);
+            alert(`${t('error')}: ${error.message}`);
         }
     });
     
-    const downloadBtn = createActionButton(ICONS.download, 'Excelファイルとしてダウンロード', async () => {
+    const downloadBtn = createActionButton(ICONS.download, 'downloadTitle', async () => {
         downloadBtn.innerHTML = '...';
         downloadBtn.disabled = true;
         try {
@@ -248,7 +287,7 @@ function createFloatingUI(tableInfo, targetElement) {
             
             // Extension context validation
             if (!chrome.runtime || !chrome.runtime.sendMessage) {
-                throw new Error('Extension context is invalid. Please reload the page.');
+                throw new Error(t('extensionInvalid'));
             }
             
             const response = await chrome.runtime.sendMessage({ 
@@ -259,14 +298,14 @@ function createFloatingUI(tableInfo, targetElement) {
             console.log('[TableBridge] Download response:', response);
             
             if (!response.success) {
-                throw new Error(response.error || 'Download failed');
+                throw new Error(response.error || t('downloadFailed'));
             }
             
             downloadBtn.innerHTML = '✅';
             setTimeout(() => { downloadBtn.innerHTML = ICONS.download; }, 2000);
         } catch (error) {
             console.error('[TableBridge] Download error:', error);
-            alert(`ダウンロードエラー: ${error.message}`);
+            alert(`${t('downloadError')}: ${error.message}`);
         } finally {
             downloadBtn.innerHTML = ICONS.download;
             downloadBtn.disabled = false;
@@ -492,12 +531,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const data = parseCodeBlock({ innerText: request.selectionText });
         if (request.menuItemId === 'sendSelectionToSheets') {
             chrome.runtime.sendMessage({ action: 'appendToSheet', data })
-              .catch(err => alert(`エラー: ${err.message}`));
+              .catch(err => alert(`${t('error')}: ${err.message}`));
         } else if (request.menuItemId === 'copySelectionAsTSV') {
             const tsvData = convertToTSV(data);
             navigator.clipboard.writeText(tsvData)
-              .then(() => alert('選択範囲をクリップボードにコピーしました。'))
-              .catch(() => alert('コピーに失敗しました。'));
+              .then(() => alert(t('copySuccess')))
+              .catch(() => alert(t('copyFailed')));
         }
         sendResponse({status: "ok"});
     }

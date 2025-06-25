@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "TableBridge",
-  "version": "1.0",
-  "description": "WebページのテーブルやCSVをGoogleスプレッドシートやクリップボードに簡単に転送します。",
+  "name": "TableBridge - CSV Export for AI Platforms",
+  "version": "2.0",
+  "description": "Export CSV/TSV data from ChatGPT, Gemini, Claude to Google Sheets, clipboard, or download with one click.",
   "permissions": [
     "activeTab",
     "storage", 

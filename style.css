@@ -85,20 +85,23 @@
     overflow: hidden !important;
 }
 
-/* Function-specific colors */
-.tablebridge-action-btn[title*="スプレッドシート"] {
+/* Function-specific colors - Multi-language support */
+.tablebridge-action-btn[title*="スプレッドシート"],
+.tablebridge-action-btn[title*="Google Sheets"] {
     background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
     border-color: rgba(34, 197, 94, 0.3) !important;
     color: #166534 !important;
 }
 
-.tablebridge-action-btn[title*="クリップボード"] {
+.tablebridge-action-btn[title*="クリップボード"],
+.tablebridge-action-btn[title*="clipboard"] {
     background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
     border-color: rgba(59, 130, 246, 0.3) !important;
     color: #1e40af !important;
 }
 
-.tablebridge-action-btn[title*="ダウンロード"] {
+.tablebridge-action-btn[title*="ダウンロード"],
+.tablebridge-action-btn[title*="Download"] {
     background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%) !important;
     border-color: rgba(245, 158, 11, 0.3) !important;
     color: #92400e !important;
@@ -112,17 +115,20 @@
     border-color: rgba(148, 163, 184, 0.8) !important;
 }
 
-.tablebridge-action-btn:hover[title*="スプレッドシート"] {
+.tablebridge-action-btn:hover[title*="スプレッドシート"],
+.tablebridge-action-btn:hover[title*="Google Sheets"] {
     box-shadow: 0 8px 25px rgba(34, 197, 94, 0.25) !important;
     border-color: rgba(34, 197, 94, 0.6) !important;
 }
 
-.tablebridge-action-btn:hover[title*="クリップボード"] {
+.tablebridge-action-btn:hover[title*="クリップボード"],
+.tablebridge-action-btn:hover[title*="clipboard"] {
     box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25) !important;
     border-color: rgba(59, 130, 246, 0.6) !important;
 }
 
-.tablebridge-action-btn:hover[title*="ダウンロード"] {
+.tablebridge-action-btn:hover[title*="ダウンロード"],
+.tablebridge-action-btn:hover[title*="Download"] {
     box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25) !important;
     border-color: rgba(245, 158, 11, 0.6) !important;
 }
