@@ -1,15 +1,16 @@
 // ===================================================================
-// TableBridge v2.0 - Hover-Triggered Architecture (content_script.js)
+// CSV Export for AI Chats - Content Script / コンテンツスクリプト
+// MIT License
 // ===================================================================
 
-// --- 1. Icon Definitions ---
+// --- 1. Icon Definitions / アイコン定義 ---
 const ICONS = {
     sheets: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm2-4h8v-2H8v2zm0-4h8v-2H8v2zm0-4h5V6H8v2z"/></svg>`,
     copy: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-5zm0 16H8V7h11v14z"/></svg>`,
     download: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/><path d="M12,19L8,15H10.5V12H13.5V15H16L12,19Z"/></svg>`
 };
 
-// --- 2. Data Extraction and Conversion Functions ---
+// --- 2. Data Extraction and Conversion Functions / データ抽出・変換関数 ---
 function parseTable(tableElement) {
     const data = [];
     for (const row of tableElement.rows) {
@@ -549,8 +550,8 @@ if (document.readyState === 'loading') {
     initializeEventListeners();
 }
 
-console.log('[TableBridge v2.0 PWA-FIXED] Hover-triggered architecture initialized - Build 20240624-2');
-console.log('[TableBridge] Environment:', {
+console.log('[CSV Export for AI Chats] v2.0 initialized');
+console.log('[CSV Export] Environment:', {
     url: window.location.href,
     userAgent: navigator.userAgent,
     isPWA: window.matchMedia('(display-mode: standalone)').matches,

@@ -1,4 +1,4 @@
-/* TableBridge v2.0 - Professional UI Design */
+/* CSV Export for AI Chats - Professional UI Design / プロフェッショナルUIデザイン */
 
 /* Floating UI for hover-triggered actions */
 .tablebridge-floating-ui {
@@ -28,9 +28,9 @@
     box-sizing: border-box !important;
 }
 
-/* Add brand indicator */
+/* Brand indicator / ブランド表示 */
 .tablebridge-floating-ui::before {
-    content: "TableBridge" !important;
+    content: "CSV Export" !important;
     position: absolute !important;
     top: -22px !important;
     left: 50% !important;
