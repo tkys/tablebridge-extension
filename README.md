@@ -96,9 +96,11 @@ Based on real usage patterns:
 2. **Export Destination Visibility**: Show current spreadsheet info
 3. **Multiple Destinations**: Quick switching between spreadsheets
 
-## 📄 License
+## 📄 Legal
 
-MIT License - see [LICENSE](LICENSE) file for details.
+- **License**: MIT License - see [LICENSE](LICENSE) file for details
+- **Privacy Policy**: [PRIVACY_POLICY.md](PRIVACY_POLICY.md)
+- **Terms of Service**: [TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md)
 
 ---
 
