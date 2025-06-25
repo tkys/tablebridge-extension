@@ -1,3 +1,42 @@
+// Internationalization for popup / ポップアップの多言語対応
+function getLocale() {
+    return navigator.language.startsWith('ja') ? 'ja' : 'en';
+}
+
+const i18n = {
+    ja: {
+        title: 'CSV Export for AI Chats',
+        loading: '読み込み中...',
+        loggedIn: 'ログイン中',
+        notLoggedIn: 'ログインしていません。',
+        loginButton: 'Googleアカウントでログイン',
+        logoutButton: 'ログアウト',
+        openSheetButton: '現在のシートを開く',
+        resetSheetButton: '新しいシートに切り替える',
+        resetConfirm: '現在のスプレッドシートとの連携を解除し、次回から新しいシートを作成しますか？',
+        resetSuccess: 'リセットしました。次回データ転送時に新しいスプレッドシートが作成されます。',
+        error: 'エラーが発生しました。詳細はコンソールを確認してください。'
+    },
+    en: {
+        title: 'CSV Export for AI Chats',
+        loading: 'Loading...',
+        loggedIn: 'Logged in as',
+        notLoggedIn: 'Not logged in.',
+        loginButton: 'Login with Google Account',
+        logoutButton: 'Logout',
+        openSheetButton: 'Open Current Sheet',
+        resetSheetButton: 'Switch to New Sheet',
+        resetConfirm: 'Disconnect from current spreadsheet and create a new one next time?',
+        resetSuccess: 'Reset completed. A new spreadsheet will be created on next data transfer.',
+        error: 'An error occurred. Please check the console for details.'
+    }
+};
+
+function t(key) {
+    const locale = getLocale();
+    return i18n[locale][key] || i18n.en[key] || key;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const statusDiv = document.getElementById('status');
     const userInfoDiv = document.getElementById('user-info');
@@ -6,16 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logout-btn');
     const openSheetBtn = document.getElementById('open-sheet-btn');
     const resetSheetBtn = document.getElementById('reset-sheet-btn');
+    
+    // Update UI text based on language / 言語に基づいてUIテキストを更新
+    document.querySelector('h3').textContent = t('title');
+    statusDiv.textContent = t('loading');
+    loginBtn.textContent = t('loginButton');
+    logoutBtn.textContent = t('logoutButton');
+    openSheetBtn.textContent = t('openSheetButton');
+    resetSheetBtn.textContent = t('resetSheetButton');
 
-    // UIを更新する関数
+    // UIを更新する関数 / Update UI function
     function updateUI(response) {
         statusDiv.classList.remove('loading');
         if (response && response.isLoggedIn && response.email) {
-            statusDiv.innerHTML = `ログイン中: <span class="email">${response.email}</span>`;
+            statusDiv.innerHTML = `${t('loggedIn')}: <span class="email">${response.email}</span>`;
             userInfoDiv.classList.remove('hidden');
             guestInfoDiv.classList.add('hidden');
         } else {
-            statusDiv.textContent = 'ログインしていません。';
+            statusDiv.textContent = t('notLoggedIn');
             userInfoDiv.classList.add('hidden');
             guestInfoDiv.classList.remove('hidden');
         }
@@ -58,16 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             resetSheetBtn.addEventListener('click', () => {
-                if (confirm('現在のスプレッドシートとの連携を解除し、次回から新しいシートを作成しますか？')) {
+                if (confirm(t('resetConfirm'))) {
                     sendMessage({ action: 'resetSheet' }).then(() => {
-                        alert('リセットしました。次回データ転送時に新しいスプレッドシートが作成されます。');
+                        alert(t('resetSuccess'));
                         window.close();
                     });
                 }
             });
 
         } catch (e) {
-            statusDiv.textContent = 'エラーが発生しました。詳細はコンソールを確認してください。';
+            statusDiv.textContent = t('error');
             console.error('Popup Error:', e.message);
         }
     })();

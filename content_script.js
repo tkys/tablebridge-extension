@@ -188,7 +188,10 @@ const i18n = {
         extensionInvalid: 'Extension context is invalid. Please reload the page.',
         noData: 'No data to copy',
         unknownError: 'Unknown error occurred',
-        downloadFailed: 'Download failed'
+        downloadFailed: 'Download failed',
+        sheetsSuccess: 'データがGoogleスプレッドシートに転送されました',
+        copySuccessShort: 'クリップボードにコピー完了',
+        downloadSuccess: 'ダウンロード完了'
     },
     en: {
         sheetsTitle: 'Export to Google Sheets',
@@ -201,7 +204,10 @@ const i18n = {
         extensionInvalid: 'Extension context is invalid. Please reload the page.',
         noData: 'No data to copy',
         unknownError: 'Unknown error occurred',
-        downloadFailed: 'Download failed'
+        downloadFailed: 'Download failed',
+        sheetsSuccess: 'Data exported to Google Sheets successfully',
+        copySuccessShort: 'Copied to clipboard',
+        downloadSuccess: 'Download completed'
     }
 };
 
@@ -248,7 +254,11 @@ function createFloatingUI(tableInfo, targetElement) {
             }
             
             sheetsBtn.innerHTML = '✅';
-            setTimeout(() => { sheetsBtn.innerHTML = ICONS.sheets; }, 2000);
+            sheetsBtn.title = t('sheetsSuccess');
+            setTimeout(() => { 
+                sheetsBtn.innerHTML = ICONS.sheets; 
+                sheetsBtn.title = t('sheetsTitle');
+            }, 3000);
         } catch (error) {
             console.error('[TableBridge] Sheets error:', error);
             alert(`${t('error')}: ${error.message}`);
@@ -272,7 +282,11 @@ function createFloatingUI(tableInfo, targetElement) {
             
             await navigator.clipboard.writeText(tsvData);
             copyBtn.innerHTML = '✅';
-            setTimeout(() => { copyBtn.innerHTML = ICONS.copy; }, 2000);
+            copyBtn.title = t('copySuccessShort');
+            setTimeout(() => { 
+                copyBtn.innerHTML = ICONS.copy; 
+                copyBtn.title = t('copyTitle');
+            }, 3000);
         } catch (error) {
             console.error('[TableBridge] Copy error:', error);
             alert(`${t('error')}: ${error.message}`);
@@ -303,7 +317,11 @@ function createFloatingUI(tableInfo, targetElement) {
             }
             
             downloadBtn.innerHTML = '✅';
-            setTimeout(() => { downloadBtn.innerHTML = ICONS.download; }, 2000);
+            downloadBtn.title = t('downloadSuccess');
+            setTimeout(() => { 
+                downloadBtn.innerHTML = ICONS.download; 
+                downloadBtn.title = t('downloadTitle');
+            }, 3000);
         } catch (error) {
             console.error('[TableBridge] Download error:', error);
             alert(`${t('downloadError')}: ${error.message}`);
